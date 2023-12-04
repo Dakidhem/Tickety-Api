@@ -15,7 +15,7 @@ import os
 from django.conf import settings
 from django.http import HttpResponse, FileResponse
 from django.utils import timezone
-
+from notifications.models import Notification
 class FRTicketCreateView(generics.ListCreateAPIView):
     serializer_class = TicketSerializer
     permission_classes = [IsAuthenticated, IsFRAssistant]
@@ -99,7 +99,15 @@ class TicketFinishView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, IsDzAssistant]
 
     def perform_update(self, serializer):
-        serializer.save(finished=True,completed_at=timezone.now())  # Assuming you have a completed_at field in your Ticket model
+        ticket_id = self.kwargs.get('pk')
+        ticket = get_object_or_404(Ticket, pk=ticket_id)
+        serializer.save(finished=True,completed_at=timezone.now())
+        fr_assistant = ticket.created_by  # Assuming created_by is a ForeignKey to User
+        Notification.objects.create(
+            recipient=fr_assistant,
+            message=f'The ticket "{ticket.title}" has been completed by {self.request.user.username}.',
+            created_at=timezone.now(),
+        ) # Assuming you have a completed_at field in your Ticket model
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -108,6 +116,17 @@ class TicketFinishView(generics.UpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class NotificationsView(APIView):
+    def get(self, request, *args, **kwargs):
+        user = request.user  # Assuming the user is authenticated
+        notifications = Notification.objects.filter(recipient=user)
+        serialized_notifications = [{'id': notification.id, 'message': notification.message, 'seen': notification.seen} for notification in notifications]
+        return Response(serialized_notifications, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        user = request.user  # Assuming the user is authenticated
+        Notification.objects.filter(recipient=user).update(seen=True)
+        return Response({'message': 'Notifications marked as seen.'}, status=status.HTTP_200_OK)
 
     
 class DownloadAttachmentAPIView(APIView):
@@ -124,3 +143,4 @@ class DownloadAttachmentAPIView(APIView):
                 return Response({"detail": "File not found"}, status=status.HTTP_404_NOT_FOUND)
 
         return Response({"detail": "Ticket does not have an attachment"}, status=status.HTTP_404_NOT_FOUND)
+    

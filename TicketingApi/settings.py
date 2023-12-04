@@ -29,7 +29,7 @@ DEBUG = True
 
 CORS_ALLOW_ALL_ORIGINS=True
 
-ALLOWED_HOSTS=['.vercel.app']
+ALLOWED_HOSTS=['127.0.0.1','.vercel.app']
 
 # Application definition
 
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'tickets',
-    'authentification'
+    'authentification',
+    'notifications'
 ]
 
 MIDDLEWARE = [
