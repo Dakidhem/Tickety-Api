@@ -27,9 +27,7 @@ SECRET_KEY = 'django-insecure-&78iis*5s#(h1kdjco7)^0bpj%t)(+vhw!jbhpzf#i_ck5eqki
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CORS_ALLOWED_ORIGINS = [
-    "*",  # Add the origin of your React app
-]
+CORS_ALLOW_ALL_ORIGINS=True
 
 ALLOWED_HOSTS=['.vercel.app']
 
