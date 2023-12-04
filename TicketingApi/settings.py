@@ -31,7 +31,7 @@ CORS_ALLOWED_ORIGINS = [
     "*",  # Add the origin of your React app
 ]
 
-ALLOWED_HOST=["127.0.0.1",'*',"tickety-api.vercel.app"]
+ALLOWED_HOST=["127.0.0.1",'*',"tickety-api.vercel.app",'.vercel.app']
 
 # Application definition
 
