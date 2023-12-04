@@ -28,10 +28,10 @@ SECRET_KEY = 'django-insecure-&78iis*5s#(h1kdjco7)^0bpj%t)(+vhw!jbhpzf#i_ck5eqki
 DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Add the origin of your React app
+    "*",  # Add the origin of your React app
 ]
 
-ALLOWED_HOST=['*']
+ALLOWED_HOST=["127.0.0.1",'*',"tickety-api.vercel.app"]
 
 # Application definition
 
