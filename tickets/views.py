@@ -36,7 +36,7 @@ class FRTicketCreateView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         # Ensure the request data includes the created_by field
         request_data = request.data.copy()
-        request_data["created_by"] = request.user.id  # Assuming created_by is a ForeignKey to User
+        request_data["created_by"] = request.user.id  
         serializer = self.get_serializer(data=request_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -102,12 +102,12 @@ class TicketFinishView(generics.UpdateAPIView):
         ticket_id = self.kwargs.get('pk')
         ticket = get_object_or_404(Ticket, pk=ticket_id)
         serializer.save(finished=True,completed_at=timezone.now())
-        fr_assistant = ticket.created_by  # Assuming created_by is a ForeignKey to User
+        fr_assistant = ticket.created_by  
         Notification.objects.create(
             recipient=fr_assistant,
             message=f'The ticket "{ticket.title}" has been completed by {self.request.user.username}.',
             created_at=timezone.now(),
-        ) # Assuming you have a completed_at field in your Ticket model
+        ) 
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -116,17 +116,7 @@ class TicketFinishView(generics.UpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class NotificationsView(APIView):
-    def get(self, request, *args, **kwargs):
-        user = request.user  # Assuming the user is authenticated
-        notifications = Notification.objects.filter(recipient=user)
-        serialized_notifications = [{'id': notification.id, 'message': notification.message, 'seen': notification.seen} for notification in notifications]
-        return Response(serialized_notifications, status=status.HTTP_200_OK)
 
-    def put(self, request, *args, **kwargs):
-        user = request.user  # Assuming the user is authenticated
-        Notification.objects.filter(recipient=user).update(seen=True)
-        return Response({'message': 'Notifications marked as seen.'}, status=status.HTTP_200_OK)
 
     
 class DownloadAttachmentAPIView(APIView):

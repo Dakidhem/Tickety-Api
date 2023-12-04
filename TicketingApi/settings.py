@@ -143,11 +143,10 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),  # Set the expiration time for access tokens
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),  # Set the expiration time for refresh tokens
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=365),  # Set the sliding token refresh time
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=365),  # Set the sliding token lifetime
-  # It will work instead of the default serializer(TokenObtainPairSerializer).
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),  
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=365), 
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=365),  
     "TOKEN_OBTAIN_SERIALIZER": "authentification.serializers.MyTokenObtainPairSerializer",
   # ...
 
