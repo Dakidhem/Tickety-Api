@@ -31,7 +31,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Add the origin of your React app
 ]
 
-ALLOWED_HOST=['.vercel.app']
+ALLOWED_HOST=['*.vercel.app']
 
 # Application definition
 
