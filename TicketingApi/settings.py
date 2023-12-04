@@ -25,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&78iis*5s#(h1kdjco7)^0bpj%t)(+vhw!jbhpzf#i_ck5eqki'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
     "*",  # Add the origin of your React app
 ]
 
-ALLOWED_HOST=["127.0.0.1",'*',"tickety-api.vercel.app",'.vercel.app']
+ALLOWED_HOSTS=['.vercel.app']
 
 # Application definition
 
